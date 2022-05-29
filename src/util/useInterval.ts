@@ -3,9 +3,8 @@
 
 import { useRef, useEffect } from 'react';
 
-// TODO: TS migration and remove AllowJS option in tsconfig.json
-export default function useInterval(callback, delay) {
-  const savedCallback = useRef();
+export default function useInterval(callback: Function, delay: number) {
+  const savedCallback = useRef<Function>();
 
   useEffect(() => {
     savedCallback.current = callback;
@@ -13,10 +12,10 @@ export default function useInterval(callback, delay) {
 
   useEffect(() => {
     function tick() {
-      savedCallback.current();
+      savedCallback.current?.();
     }
 
-    let id = setInterval(tick, delay);
+    const id = setInterval(tick, delay);
     return () => clearInterval(id);
   }, [delay]);
 }
